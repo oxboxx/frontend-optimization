@@ -1,4 +1,4 @@
-import React, { useState, Suspense, lazy } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import styled from "styled-components";
 import Header from "./components/Header";
 import InfoTable from "./components/InfoTable";
@@ -6,10 +6,17 @@ import SurveyChart from "./components/SurveyChart";
 import Footer from "./components/Footer";
 // import ImageModal from './components/ImageModal'
 
-const LazyImageModal = lazy(() => import("./components/ImageModal"));
+// const LazyImageModal = lazy(() => import("./components/ImageModal"));
 
 function App() {
   const [showModal, setShowModal] = useState(false);
+  const [LazyImageModal, setLazyImageModal] = useState(null);
+
+  useEffect(() => {
+    import("./components/ImageModal").then((ImageModal) => {
+      setLazyImageModal(() => ImageModal.default);
+    });
+  }, []);
 
   return (
     <div className="App">
