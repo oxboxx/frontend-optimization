@@ -1,19 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import video from "../assets/_banner-video.mp4";
 import video_webm from "../assets/_banner-video.webm";
-import FontFaceObserver from "fontfaceobserver";
-
-const font = new FontFaceObserver("BMYEONSUNG");
 
 function BannerVideo() {
-  const [isFontLoaded, setIsFontLoaded] = useState(false);
-
-  useEffect(() => {
-    font.load(null, 20000).then(() => {
-      setIsFontLoaded(true);
-    });
-  }, []);
-
   return (
     <div className="BannerVideo w-full h-screen overflow-hidden relative bg-texture">
       <div className="absolute h-screen w-full left-1/2">
@@ -28,10 +17,7 @@ function BannerVideo() {
           <source src={video} type="video/mp4" />
         </video>
       </div>
-      <div
-        className="w-full h-full flex justify-center items-center"
-        style={{ opacity: isFontLoaded ? 1 : 0, transition: "opacity 0.3s ease" }}
-      >
+      <div className="w-full h-full flex justify-center items-center">
         <div className="text-white text-center">
           <div className="text-6xl leading-none font-semibold">KEEP</div>
           <div className="text-6xl leading-none font-semibold">CALM</div>
