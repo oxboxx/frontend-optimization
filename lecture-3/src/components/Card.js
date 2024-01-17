@@ -1,14 +1,34 @@
-import React from 'react'
+import React from "react";
+import { useEffect } from "react";
+import { useRef } from "react";
 
 function Card(props) {
-	return (
-		<div className="Card text-center">
-			<img src={props.image}/>
-			<div className="p-5 font-semibold text-gray-700 text-xl md:text-lg lg:text-xl keep-all">
-				{props.children}
-			</div>
-		</div>
-	)
+  const imgRef = useRef(null);
+
+  useEffect(() => {
+    const options = {};
+    const callback = (entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          console.log("is intersecting", entry.target.dataset.src);
+          entry.target.src = entry.target.dataset.src; // src에 값을 할당함으로써 이미지를 로드한다.
+          observer.unobserve(entry.target); // 이미지를 로드한 이후에는 관찰을 중지한다.
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(callback, options);
+    observer.observe(imgRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div className="Card text-center">
+      <img data-src={props.image} ref={imgRef} />
+      <div className="p-5 font-semibold text-gray-700 text-xl md:text-lg lg:text-xl keep-all">{props.children}</div>
+    </div>
+  );
 }
 
-export default Card
+export default Card;
